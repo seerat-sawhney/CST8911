@@ -1,53 +1,42 @@
-# Name of the workflow, displayed in GitHub Actions
-name: Azure Static Web Apps CI/CD
-
-# Trigger the workflow on push to the main branch or when a pull request is opened or synchronized
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened, closed]
-
-jobs:
-  # Define the main job for building and deploying
-  build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    steps:
-      # Step 1: Check out the repository
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-          lfs: false
-          
-      # Step 2: Use Azure's static-web-apps-deploy action to build and deploy
-      - name: Build And Deploy
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          # Azure Static Web App token stored in GitHub secrets for secure access
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_SAND_00946531E }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for handling pull requests, etc.
-          action: "upload"
-
-          # Directory configurations
-          app_location: "./" # Root directory where index.html is located
-          api_location: "" # No API folder, leave empty
-          output_location: "." # Output folder, root directory
-
-  # Optional job to close pull requests if they are closed without merging
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_SAND_00946531E }}
-          action: "close"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Updated Azure Static Web App</title>
+    <style>
+        /* Basic styling for the layout and appearance */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f4f6;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Updated heading to test auto-deployment -->
+        <h1>Welcome to My Updated Static Web App!</h1>
+        
+        <!-- Updated paragraph to confirm changes reflect on the live site -->
+        <p>This update should be automatically deployed to Azure!</p>
+    </div>
+</body>
+</html>
